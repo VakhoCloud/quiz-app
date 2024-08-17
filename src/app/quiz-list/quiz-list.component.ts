@@ -24,10 +24,12 @@ export class QuizListComponent implements OnInit, AfterViewInit {
     private quizService: QuizService, 
     private router: Router,
     private dataStorageService: DataStorageService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {  
-    this.dataStorageService.fetchQuizzes().subscribe();
+    console.log(this.authService.getIdToken());
+    this.dataStorageService.fetchQuizzes(this.authService.getIdToken()).subscribe();
 
     this.quizService.quizChanged.subscribe((quizzes: Quiz[]) => {
       this.quiz = quizzes;
@@ -49,9 +51,9 @@ export class QuizListComponent implements OnInit, AfterViewInit {
   }
 
   onRemoveQuiz(id: number) {
-    this.dataStorageService.fetchQuizzes();
+    this.dataStorageService.fetchQuizzes(this.authService.getIdToken());
     this.quizService.removeQuiz(id);
-    this.dataStorageService.storeQuizzes();
+    this.dataStorageService.storeQuizzes(this.authService.getIdToken());
   }
 
 

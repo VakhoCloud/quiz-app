@@ -25,6 +25,7 @@ const routes: Routes = [
 },
   { path: 'list', component: QuizListComponent, canActivate: [authGuard]},
   { path: 'preview/:id', component: QuizExamComponent, canActivate: [quizEditorGuard, authGuard]},
+  { path: 'preview/:userid/:id', component: QuizExamComponent, canActivate: [quizEditorGuard, authGuard]},
   // { path: '' , canActivate: [quizEditorGuard, authGuard]},
   { path: 'auth', component: AuthComponent, canActivate: [authRedirectGuard]},
   { path: 'results', component: ResultsComponent, canActivate: [authGuard]},

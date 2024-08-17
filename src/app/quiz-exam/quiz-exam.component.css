@@ -68,12 +68,16 @@
     justify-content: space-between;
 }
 
+button { 
+    text-transform: uppercase;
+}
+
 /* buttons */
 button,
 label {
     padding: 1.3em 3em;
     font-size: 12px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;

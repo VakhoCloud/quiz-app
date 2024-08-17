@@ -18,7 +18,7 @@ export class QuizExamService {
   allCorrectAnswersSelected(question: Question): boolean {
     const correctOptions = question.options.filter(option => option.isCorrect);
     const selectedCorrectOptions = question.options.filter(option => option.selected);
-    console.log(question.options.filter(option => option.selected))
+    // console.log(question.options.filter(option => option.selected))
    
     return correctOptions.length === selectedCorrectOptions.length;
   }

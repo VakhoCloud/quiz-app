@@ -117,7 +117,7 @@ export class AuthService {
     }
 
     getIdToken() { 
-        return this.user.value.id;
+        return this.user.value ? this.user.value.id : null;
     }   
 
     getEmail() { 

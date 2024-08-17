@@ -116,19 +116,19 @@
               <p *ngIf="quiz.settings.timerEnabled">
                 {{ hr | number: '2.0-0' }} : {{ min | number: '2.0-0' }} : {{ sec }}
               </p>
-  
-              <div class="counter-container">
-                
-                @for (q of (currentQuestionIndex | questionCounter:quiz.questions.length); track $index) {   
-                    <div class="counter-box" 
-                    [class.current-question]="currentQuestionIndex === (q - 1)"
-                    [class.marked]="quiz.settings.autoCheckerEnabled && quiz.questions[q - 1].options[0].disabled"
-                    >
-                      {{ q }}                
-                    </div>
-                }
-              </div>
-  
+              @if (quiz.settings.questionPerPage) {
+                <div class="counter-container">
+                  
+                  @for (q of (currentQuestionIndex | questionCounter:quiz.questions.length); track $index) {   
+                      <div class="counter-box" 
+                      [class.current-question]="currentQuestionIndex === (q - 1)"
+                      [class.marked]="quiz.settings.autoCheckerEnabled && quiz.questions[q - 1].options[0].disabled"
+                      >
+                        {{ q }}                
+                      </div>
+                  }
+                </div>
+              }
               <p *ngIf="quiz.settings.autoCheckerEnabled">score {{ totalPoints}} / {{ quiz.questions.length}}</p>
               <!-- <button class="btn btn-primary" (click)="checkAnswers()">check answer</button> -->
             </div>

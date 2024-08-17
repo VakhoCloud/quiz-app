@@ -20,7 +20,7 @@ export class Results {
         this.date = date;
         this.quiz = quiz;
         this.userId = userId;
-        this.email = email;
+        this.email = email ? email : 'Guest';
     }
 
 }

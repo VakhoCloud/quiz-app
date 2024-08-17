@@ -1,9 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import { Quiz } from '../shared/quiz.model';
 import { QuizExamService } from './quiz-exam.service';
 import { Question } from '../shared/question.model';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuizService } from '../quiz.service';
 import { DataStorageService } from '../shared/data-storage.service';
@@ -18,7 +18,10 @@ import { AuthService } from '../auth/auth.service';
   styleUrl: './quiz-exam.component.css',
 })
 export class QuizExamComponent implements OnInit, OnDestroy {
-  
+  // user token
+  private userId: string = '';
+  private invited: boolean = false;
+
   id: number;
   username: string = '';
 
@@ -53,7 +56,7 @@ export class QuizExamComponent implements OnInit, OnDestroy {
   isLinear = false;
   
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private examService: QuizExamService,
     private _snackbar: MatSnackBar,
     private quizService: QuizService,
@@ -63,20 +66,26 @@ export class QuizExamComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataStorageService.fetchQuizzes().subscribe(res => {
-      this.subs$ = this.route.params.subscribe((params: Params) => {
-        this.id = +params['id'];
+    
+    this.subs$ = this.route.params.subscribe((params: Params) => {
+      if (params['userid']) {
+        this.userId = params['userid'];
+        this.invited = this.userId !== this.authService.getIdToken();
+      };
+      this.id = +params['id']; 
+      this.dataStorageService.fetchResults(this.authService.getIdToken() === null || this.invited ? this.userId : this.authService.getIdToken()).subscribe();
+      
+      // Fetch the quizzes using the retrieved userId
+      this.dataStorageService.fetchQuizzes(this.authService.getIdToken() === null || this.invited ? this.userId : this.authService.getIdToken()).subscribe(res => {
         this.quiz = this.examService.getQuiz(this.id);
-        console.log(this.id);
+        if (!this.quiz.settings.strictMode) { 
+          this.startTimer();
+        }
+    
+        if (this.quiz.settings.strictMode) {
+          document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+        }
       });
-
-      if(!this.quiz.settings.strictMode) { 
-        this.startTimer();
-      }
-
-      if(this.quiz.settings.strictMode) {
-        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
-      }
     });
 
   }
@@ -197,7 +206,7 @@ export class QuizExamComponent implements OnInit, OnDestroy {
     this.quizCompleted = true;
     
     this.examService.quizStart.next(false);
-    if(this.quiz.settings.strictMode) {
+    if(this.quiz.settings.strictMode && this.authService.getIdToken() !== null) {
       this.fullscreenService.exitFullscreen();
       this.quizService.onSaveParticipation(
         this.quizService.getResults().length, 
@@ -209,8 +218,8 @@ export class QuizExamComponent implements OnInit, OnDestroy {
         this.authService.getIdToken(),
         this.authService.getEmail()
       );
-      this.dataStorageService.fetchResults();
-      this.dataStorageService.storeResult();
+      // console.log(this.authService.getIdToken() === null || this.invited ? this.userId : this.authService.getIdToken());
+      this.dataStorageService.storeResult(this.authService.getIdToken() === null || this.invited ? this.userId : this.authService.getIdToken());
     }
 
     this.resetOptions();
@@ -245,9 +254,8 @@ export class QuizExamComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.examService.quizStart.next(false);
-
     this.subs$.unsubscribe();
-    console.log('works')
+
   }
 
 }

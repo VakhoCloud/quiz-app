@@ -53,33 +53,33 @@ export class ResultsComponent implements OnInit, AfterViewInit, OnDestroy{
     this.userId = this.authService.getIdToken();
     this.userEmail = this.authService.getEmail();
 
-    this.dataStorageService.fetchResults().subscribe((results: Results[]) => {
-      if (this.userEmail === this.authService.getAdminEmail() &&  this.userId === this.authService.getAdminIdToken()){ 
-        this.results = results;
-      } else { 
-        results.forEach(res => { 
-          if (res.email === this.userEmail && res.userId === this.userId) { 
-            this.results.push(res);
-          }
-        })
-      }
+    this.dataStorageService.fetchResults(this.authService.getIdToken()).subscribe((results: Results[]) => {
+      this.results = results;
+      // if (this.userEmail === this.authService.getAdminEmail() && this.userId === this.authService.getAdminIdToken()){ 
+      // } else { 
+      //   results.forEach(res => { 
+      //     if (res.email === this.userEmail && res.userId === this.userId) { 
+      //       this.results.push(res);
+      //     }
+      //   })
+      // }
       this.dataSource.data = this.results;    
     });
 
     this.quizService.participantChanged.subscribe((results: Results[]) => {
-      if (this.userEmail === this.authService.getAdminEmail() &&  this.userId === this.authService.getAdminIdToken()){ 
-        this.results = results;
-      } else if (results.length === this.results.length) {
-        let temp = [] 
-        results.forEach(res => { 
-          if (res.email === this.userEmail && res.userId === this.userId) { 
-            temp.push(res);
-          }
-        })
-        if (temp.length !== this.results.length ){ 
-          this.results = temp;
-        }
-      }
+      this.results = results;
+      // if (this.userEmail === this.authService.getAdminEmail() &&  this.userId === this.authService.getAdminIdToken()){ 
+      // } else if (results.length === this.results.length) {
+      //   let temp = [] 
+      //   results.forEach(res => { 
+      //     if (res.email === this.userEmail && res.userId === this.userId) { 
+      //       temp.push(res);
+      //     }
+      //   })
+      //   if (temp.length !== this.results.length ){ 
+      //     this.results = temp;
+      //   }
+      // }
       this.dataSource.data = this.results;
     });
     

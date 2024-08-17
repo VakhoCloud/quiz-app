@@ -18,14 +18,11 @@ export const authGuard: CanActivateFn = (
       take(1),
       switchMap(isAuth => {
           const params = route.params;
-          console.log(params);
 
           if (params['id']) {
-              return dataStorageService.fetchQuizzes().pipe(
+              return dataStorageService.fetchQuizzes(authService.getIdToken() === null ? params['userid'] : authService.getIdToken()).pipe(
                   map(() => {
                       const quiz = quizService.getQuizById(+params['id']);
-                      console.log(quiz);
-
                       if (quiz && !quiz.settings.strictMode) {
                           return true;
                       } else if (isAuth) {

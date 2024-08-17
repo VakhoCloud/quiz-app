@@ -5,6 +5,7 @@ import { QuizService } from '../../quiz.service';
 import { Quiz } from '../../shared/quiz.model';
 import { DataStorageService } from '../../shared/data-storage.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-quiz-editor-question',
@@ -25,17 +26,21 @@ export class QuizEditorQuestionComponent implements OnInit  {
   showSettingsTab = false;
   showThemesTab = false;
 
+
+
   constructor(
     private quizService: QuizService,
     private fb: FormBuilder,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
     private dataStorageService: DataStorageService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthService
   )
     {}
  
   ngOnInit(): void {   
+
     this.quizForm = this.fb.group({
       id: '',
       title: ['', [Validators.required, Validators.minLength(5)]],
@@ -180,8 +185,8 @@ export class QuizEditorQuestionComponent implements OnInit  {
       const newQuizId = this.quizService.getQuiz().length - 1;
       this.router.navigate(['/editor', newQuizId, 'edit']);
     };
-    this.dataStorageService.fetchQuizzes();
-    this.dataStorageService.storeQuizzes();
+    this.dataStorageService.fetchQuizzes(this.authService.getIdToken());
+    this.dataStorageService.storeQuizzes(this.authService.getIdToken());
   }
 
   toggleSettingsTab() {
