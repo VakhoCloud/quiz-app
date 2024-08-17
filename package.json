@@ -7,7 +7,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration=production --base-href=https://quiz-app-shs7.onrender.com/home",
+    "build": "ng build --configuration=production --base-href=https://quiz-app-shs7.onrender.com",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
