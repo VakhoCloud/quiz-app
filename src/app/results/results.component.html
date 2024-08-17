@@ -1,0 +1,51 @@
+@if (!checkMode) {
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource"  matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header sortActionDescription="Sort by number"> Name </th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="onCheckNavigate(element.id, element.username)" mat-raised-button>{{ element.username.length > 9 ? (element.username | slice:0:7) + '...' : element.username }}</button>
+        </td>
+      </ng-container>
+    
+  
+      <ng-container matColumnDef="quizName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quiz Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.quizName }} </td>
+      </ng-container>
+    
+  
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Score </th>
+        <td mat-cell *matCellDef="let element">{{ element.score }} / {{ element.totalPoints}}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.email}}
+          </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+    
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;  "></mat-row>
+  
+  <mat-paginator 
+    [pageSizeOptions]="[5, 10, 20]"             
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+}@else {
+  <router-outlet></router-outlet>
+}
+
+

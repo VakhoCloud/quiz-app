@@ -1,0 +1,66 @@
+<mat-card appearance="outlined">
+    <mat-card-content>
+      <div class="results-header">
+        <a class="undo-container" (click)="previous()"><mat-icon style="transform: rotate(180deg);">exit_to_app</mat-icon> Go back</a>
+        <div>
+          <p>{{ email }}</p>
+          <p>{{ date | date : 'MM, d, y, h:mm a' }}</p> 
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div class=".container">
+        <div class="image-container"  [style.background-image]="'url('+quiz.settings.backgroundImage+')'"></div>
+        <div class="quiz-box">
+          <div class="exam-form">
+            <h3><span>Patricipant</span><span>{{username}}</span></h3>
+            <mat-divider></mat-divider>
+            <h1 style="text-align: center;">{{quiz.title}}</h1>
+              <div *ngFor="let question of quiz.questions; let i = index">
+                <mat-divider></mat-divider>
+                <h2>
+                  {{ question.text }} 
+                </h2>
+
+                <div *ngFor="let option of question.options">
+                  <div>
+                    <label 
+                        class="quiz-answer-container"
+                        [class.selected]="option.selected"
+                        [class.correct]="option.isCorrect && option.selected"
+                        [class.incorrect]="option.selected && !option.isCorrect"
+                      >
+                      <div class="quiz-answer-box">
+                        <input [type]="containsMultipleCorrectOptions(question) ? 'checkbox' : 'radio'" [id]="i + '' + option.id"
+                              (click)="selected(i, option.id)"
+                              [name]="'question_' + i"
+                              disabled>
+                        <span>{{ option.text }}</span> 
+                      </div>
+                      <div>
+                        @if (option.isCorrect && option.selected) {
+                          <div>
+                            <mat-icon>check_circle_outline</mat-icon>
+                          </div>
+                        }@else if (option.selected && !option.isCorrect) {
+                          <div>
+                            <mat-icon>highlight_off</mat-icon>
+                          </div>
+                        }
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <mat-divider></mat-divider>
+              </div>
+              </div>
+            </div>
+          </div>
+        <div class="result">
+          <mat-divider></mat-divider>
+          <h2>Score: {{result.score}}  / {{ result.totalPoints }}</h2>
+          <mat-divider></mat-divider>
+        </div>
+
+    </mat-card-content>
+  </mat-card>

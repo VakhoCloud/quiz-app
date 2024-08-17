@@ -1,0 +1,20 @@
+<div [formGroup]="settingsForm">
+    <div class="image-container"> 
+      <div *ngFor="let item of imageList; let i = index">
+        <div class="mydict">
+          <div>
+            <label style="cursor: pointer;">
+              <img [src]="item" alt="Background Image">
+              <input 
+                type="radio" 
+                formControlName="backgroundImage" 
+                [value]="item" 
+                [checked]="item === settingsForm.get('backgroundImage').value">
+              <span>{{ item }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

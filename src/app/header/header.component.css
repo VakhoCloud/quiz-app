@@ -1,0 +1,130 @@
+a { 
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+aside {
+    z-index: 50;
+    height: 100dvh;
+    position: fixed; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #1A262B;
+    width: 216px;
+    border-top: 2px solid #074f70;
+    overflow: hidden;
+}
+
+.aside-links { 
+    cursor: pointer;
+    height: 53px;
+    margin: 0; 
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+}
+
+.active { 
+    background: #3c5661;
+    width: 100%;
+}
+
+header {
+    color: #fff;
+    background-color: #1A262B;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.quiz-logo { 
+
+    padding: 15px;
+}
+
+h3 {
+    margin: 0;
+    font-weight: 200;
+}
+
+.aside-links:hover { 
+    background-color: #074f70;
+}
+
+mat-accordion { 
+    display: none;
+}
+
+mat-expansion-panel, mat-panel-description, mat-panel-title, mat-expansion-panel-header, mat-accordion { 
+    background-color: #1A262B;
+    color: #fff;
+}
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
+    background-color: #1A262B;
+    color: #fff;
+}
+
+mat-expansion-panel  {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+mat-panel-title { 
+    margin: 1rem 0;
+}
+
+::ng-deep .mat-expansion-indicator::after{
+    color: #fff !important;
+}
+
+
+
+p {
+    font-size: 0.75rem;
+    color: gray;
+    font-weight: 300;
+    margin: 0;
+}
+
+
+.sign-out {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 80%; /* Adjust this value if you want to control the maximum width of the email box */
+}
+
+.sign-out-container {
+    height: fit-content;
+    display: flex;
+    gap: 15px;
+    padding: 10px 20px;
+}
+
+
+@media only screen and (max-width: 1240px) {
+    header {
+        display: none;
+    }
+
+    .dropd {
+        display: block;
+    }
+
+    mat-accordion {
+        width: 100%; 
+        position: fixed;
+        display: block;
+        z-index: 500;
+    }
+}
+

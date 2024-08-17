@@ -1,0 +1,107 @@
+  <header *ngIf="!isQuizStarted" style="z-index: 50;">
+    <div class="quiz-logo">
+        <a [routerLink]="['home']">
+            <h3>
+            <fa-icon [icon]="faCloud"></fa-icon>
+            Quiz<strong>Cloud</strong>
+            </h3>
+        </a>
+    </div>
+    <aside>
+        <div>
+          <div>
+            <h5 matRipple class="aside-links" routerLinkActive="active" *ngIf="isAuthenticated" [routerLink]="['editor', 'question']">
+              <fa-icon [icon]="faPlus" style="color:white;" ></fa-icon>
+              <a>NEW QUIZ</a>
+            </h5>
+          </div>
+          <div matRipple *ngIf="isAuthenticated" [routerLink]="['list']">
+            <h5 class="aside-links" routerLinkActive="active">
+              <fa-icon [icon]="faList" style="color:white"></fa-icon>
+              <a>QUIZ LIST</a>
+            </h5>
+          </div>
+          <div matRipple *ngIf="isAuthenticated" [routerLink]="['results']">
+            <h5 class="aside-links" routerLinkActive="active" >
+              <fa-icon [icon]="faUsers" style="color:white"></fa-icon>
+              <a>RESULTS</a>
+            </h5>
+          </div>
+      
+          <div matRipple [routerLink]="['auth']">
+            <h5 class="aside-links" routerLinkActive="active" *ngIf="!isAuthenticated">
+              <fa-icon [icon]="faUserC" style="color:white"></fa-icon>
+              <a>SIGN IN</a>
+            </h5>
+          </div>
+        </div>
+        <div matRipple *ngIf="isAuthenticated" (click)="onLogout()">
+            <h5 class="aside-links sign-out-container">
+              <mat-icon style="transform: rotate(180deg);">exit_to_app</mat-icon>
+              <a style="cursor: pointer;" class="sign-out">
+                {{userEmail}}
+                <p>Sign out</p>
+              </a>
+            </h5>
+        </div>
+      </aside>
+  </header>
+
+  <mat-accordion *ngIf="!isQuizStarted">
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>  
+          <div class="quiz-logo">
+            <a>
+                <h3>
+                <fa-icon [icon]="faCloud"></fa-icon>
+                Quiz<strong>Cloud</strong>
+                </h3>
+            </a>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <h5 matRipple class="aside-links" routerLinkActive="active" [routerLink]="['home']" (click)="accordion().closeAll()">
+          <mat-icon>home</mat-icon>
+          <a>HOME PAGE</a>
+        </h5>
+      </div>
+      <div>
+        <h5 matRipple class="aside-links" routerLinkActive="active" *ngIf="isAuthenticated" [routerLink]="['editor', 'question']" (click)="accordion().closeAll()">
+          <fa-icon [icon]="faPlus" style="color:white;" ></fa-icon>
+          <a>NEW QUIZ</a>
+        </h5>
+      </div>
+      <div matRipple *ngIf="isAuthenticated" [routerLink]="['list']" (click)="accordion().closeAll()">
+        <h5 class="aside-links" routerLinkActive="active">
+          <fa-icon [icon]="faList" style="color:white"></fa-icon>
+          <a>QUIZ LIST</a>
+        </h5>
+      </div>
+      <div matRipple *ngIf="isAuthenticated" [routerLink]="['results']" (click)="accordion().closeAll()">
+        <h5 class="aside-links" routerLinkActive="active" >
+          <fa-icon [icon]="faUsers" style="color:white"></fa-icon>
+          <a>RESULTS</a>
+        </h5>
+      </div>
+  
+      <div matRipple [routerLink]="['auth']">
+        <h5 class="aside-links" routerLinkActive="active" *ngIf="!isAuthenticated" (click)="accordion().closeAll()">
+          <fa-icon [icon]="faUserC" style="color:white"></fa-icon>
+          <a>SIGN IN</a>
+        </h5>
+      </div>
+      <div matRipple *ngIf="isAuthenticated" (click)="onLogout()">
+        <h5 class="aside-links sign-out-container">
+          <mat-icon style="transform: rotate(180deg);">exit_to_app</mat-icon>
+          <a style="cursor: pointer;" class="sign-out">
+            {{userEmail}}
+            <p>Sign out</p>
+          </a>
+        </h5>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+

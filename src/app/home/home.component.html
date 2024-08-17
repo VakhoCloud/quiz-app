@@ -1,0 +1,46 @@
+
+<div class="quiz-container">
+    <div class="quiz-box">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Welcome to Quiz Maker</mat-card-title>
+                <mat-card-subtitle>Create, Take, and Share Quizzes</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="text-align: center;">Quiz Maker allows you to create engaging quizzes effortlessly. Start building your quiz or take one created by others. Share your quizzes and challenge your friends!</p>
+                <mat-divider></mat-divider>
+                <div class="features">
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>create</mat-icon>
+                            <div class="feature-text">
+                                <h3>Create Custom Quizzes</h3>
+                                <p>Design quizzes with various question types, images, and more.</p>
+                            </div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>assignment</mat-icon>
+                            <div class="feature-text">
+                                <h3>Take Quizzes</h3>
+                                <p>Test your knowledge with quizzes from different categories.</p>
+                            </div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>share</mat-icon>
+                            <div class="feature-text">
+                                <h3>Share Quizzes</h3>
+                                <p>Share your quizzes with friends and challenge them.</p>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="actions">
+                    <button mat-raised-button color="primary" (click)="onCreate()">Create a Quiz</button>
+                    <button mat-raised-button color="accent" (click)="onTake()">Take a Quiz</button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+

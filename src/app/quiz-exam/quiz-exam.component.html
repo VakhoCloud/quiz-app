@@ -1,0 +1,147 @@
+@if (quiz) {
+  <mat-card appearance="outlined" >
+    <mat-card-content>
+      <div class=".container">
+        <div class="image-container"  [style.background-image]="'url('+quiz.settings.backgroundImage+')'"></div>
+        @if (!quizStarted && quiz.settings.strictMode) {
+          <div class="quiz-entry">
+            <mat-form-field hintLabel="min. 6 characters" >
+              <mat-label>Enter username</mat-label>
+              <input matInput [(ngModel)]="username" #usernameInput="ngModel" minlength="6" required [disabled]="qsReminder === 1">
+              @if (usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)) {
+                <mat-error>
+                  Username must be at least 6 characters long.
+                  <p>{{username.length}}/6</p>
+                </mat-error>
+              }
+              <mat-hint align="end">{{username.length}}/6</mat-hint>
+              @if (username.length < 6) {
+              }
+            </mat-form-field>
+            <button (click)="startTimer()" class="control-buttons" [disabled]="username.length < 6">start timer</button>
+          </div> 
+        }
+        <div class="quiz-box" *ngIf="!quizCompleted && quizStarted">
+          <div class="exam-form">
+            @if(quiz.settings.showTitle){
+              <h1 style="text-align: center;">{{quiz.title }}</h1>
+            }
+            
+            @if (quiz.settings.questionPerPage) {
+             
+              <div *ngFor="let question of quiz.questions; let i = index" [hidden]="currentQuestionIndex !== i">
+                <h2 style="text-align: center;">{{ question.text }}</h2>
+                <div *ngFor="let option of question.options">
+                  <div>
+                    @if(quiz.settings.autoCheckerEnabled) {
+                      <label 
+                        class="quiz-answer-box"
+                        [class.selected]="option.selected"
+                        [class.correct]="option.selected && option.isCorrect || option.disabled && option.isCorrect"
+                        [class.incorrect]="option.selected && !option.isCorrect"
+                      >
+                        <input 
+                          [type]="containsMultipleCorrectOptions(question) ? 'checkbox' : 'radio'" 
+                          [id]="i + '' + option.id"
+                          (click)="selected(i, option.id)"
+                          [name]="'question_' + i"
+                          [disabled]="option.disabled">
+                        <span>{{ option.text }}</span>
+                      </label>
+                    }@else {
+                      <label class="quiz-answer-box" [class.selected]="option.selected">
+                        <input 
+                          [type]="containsMultipleCorrectOptions(question) ? 'checkbox' : 'radio'" [id]="i + '' + option.id"
+                          (click)="selected(i, option.id)"
+                          [name]="'question_' + i">
+                        <span>{{ option.text }}</span>
+                      </label>
+                    }
+                  </div>
+                </div>
+              </div>
+            }@else {
+              <div *ngFor="let question of quiz.questions; let i = index">
+                <h2>{{ question.text }}</h2>
+                <div *ngFor="let option of question.options">
+                  <div>
+                    @if(quiz.settings.autoCheckerEnabled) {
+                      <label class="quiz-answer-box"
+                            [class.selected]="option.selected"
+                            [class.correct]="option.selected && option.isCorrect || option.disabled && option.isCorrect"
+                            [class.incorrect]="option.selected && !option.isCorrect"
+                      >
+                        <input [type]="containsMultipleCorrectOptions(question) ? 'checkbox' : 'radio'" [id]="i + '' + option.id"
+                              (click)="selected(i, option.id)"
+                              [name]="'question_' + i"
+                              [disabled]="option.disabled">
+                        <span>{{ option.text }}</span>
+                      </label>
+                    }@else {
+                      <label class="quiz-answer-box" [class.selected]="option.selected">
+                        <input 
+                          [type]="containsMultipleCorrectOptions(question) ? 'checkbox' : 'radio'" [id]="i + '' + option.id"
+                          (click)="selected(i, option.id)"
+                          [name]="'question_' + i">
+                        <span>{{ option.text }}</span>
+                      </label>
+                    }
+        
+                  </div>
+                </div>
+              </div>
+            }
+  
+            <div class="question-move">
+              <div>
+                <button class="btn btn-primary" class="control-buttons" (click)="showPreviousQuestion()" *ngIf="quiz.settings.backButton && quiz.settings.questionPerPage" [disabled]="currentQuestionIndex === 0">Previous</button>
+              </div>
+              <div class="autoslide">
+                <mat-progress-spinner
+                  class="example-margin"
+                  [diameter]="20"
+                  [mode]="mode"
+                  [value]="value">
+                </mat-progress-spinner>
+              </div>
+              <div>
+                <button class="btn btn-primary" class="control-buttons" (click)="showNextQuestion()" *ngIf="quiz.settings.questionPerPage && currentQuestionIndex !== quiz.questions.length - 1" [disabled]="currentQuestionIndex === quiz.questions.length - 1">Next</button>
+                <!-- <button mat-button matStepperNext>Next</button> -->
+                <button class="btn btn-primary" class="control-buttons" (click)="showNextQuestion()" *ngIf="!quiz.settings.questionPerPage || currentQuestionIndex === quiz.questions.length - 1" (click)="checkAnswers()">Finish</button>
+              </div>
+            </div>
+            
+            <hr>
+            <div class="tmSubmit">
+              <p *ngIf="quiz.settings.timerEnabled">
+                {{ hr | number: '2.0-0' }} : {{ min | number: '2.0-0' }} : {{ sec }}
+              </p>
+  
+              <div class="counter-container">
+                
+                @for (q of (currentQuestionIndex | questionCounter:quiz.questions.length); track $index) {   
+                    <div class="counter-box" 
+                    [class.current-question]="currentQuestionIndex === (q - 1)"
+                    [class.marked]="quiz.settings.autoCheckerEnabled && quiz.questions[q - 1].options[0].disabled"
+                    >
+                      {{ q }}                
+                    </div>
+                }
+              </div>
+  
+              <p *ngIf="quiz.settings.autoCheckerEnabled">score {{ totalPoints}} / {{ quiz.questions.length}}</p>
+              <!-- <button class="btn btn-primary" (click)="checkAnswers()">check answer</button> -->
+            </div>
+          </div>
+        </div>
+        <div *ngIf="quizCompleted" class="completed"> 
+          <h1>Quiz Completed</h1>
+          <h2>You Score: {{ totalPoints }} / {{ quiz.questions.length }}</h2>
+        </div>          
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
+
+
+

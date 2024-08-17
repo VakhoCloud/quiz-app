@@ -1,0 +1,51 @@
+<div class="settings-tab" [formGroup]="settingsForm">
+    <div class="backdrop" (click)="toggleSettingsTab()">
+
+    </div>
+    <div class="settings-tab">
+        <label class="label-tab">
+            Timer Enabled: {{ settingsForm.get('timerEnabled').value }}
+            <!-- <input type="checkbox" formControlName="timerEnabled" name="timerEnabled"> -->
+            <mat-slide-toggle color="primary" formControlName="timerEnabled"></mat-slide-toggle>                  
+        </label>  
+        <mat-divider></mat-divider>
+        <label class="label-tab" *ngIf="settingsForm.get('timerEnabled').value" >
+            Timer Duration (seconds): 
+            <input type="number" class="timer-duration" formControlName="timerDuration">
+        </label>
+        <mat-divider></mat-divider>
+        <label class="label-tab">
+            Show Answers:  
+            <mat-slide-toggle color="primary" formControlName="autoCheckerEnabled"></mat-slide-toggle>                  
+        </label>
+        <mat-divider></mat-divider>
+
+        <label class="label-tab">
+            Back Button: 
+            <mat-slide-toggle color="primary" formControlName="backButton"></mat-slide-toggle>                  
+        </label>
+        <mat-divider></mat-divider>
+        <label class="label-tab">
+            Question Per Page: 
+            <mat-slide-toggle color="primary" formControlName="questionPerPage"></mat-slide-toggle>                  
+        </label>
+        <mat-divider></mat-divider>
+        <label class="label-tab">
+            Title / Header (Show a title above your quiz): 
+            <mat-slide-toggle color="primary" formControlName="showTitle"></mat-slide-toggle>                  
+        </label>
+        <mat-divider></mat-divider>
+        <label class="label-tab">
+            Auto Advance 
+            <mat-slide-toggle color="primary" formControlName="autoAdvance"></mat-slide-toggle>                  
+        </label>
+        <label class="label-tab">
+            Strict Mode
+            <mat-slide-toggle color="primary" formControlName="strictMode"></mat-slide-toggle>                  
+        </label>
+        <mat-divider></mat-divider>
+        <div class="settings-tab-action-box">
+            <button (click)="toggleSettingsTab()">Close</button>
+        </div>
+    </div>
+</div>
