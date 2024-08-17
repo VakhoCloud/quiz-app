@@ -16,7 +16,6 @@ import { ResultsModule } from './results/results.module';
 import { QuizExamModule } from './quiz-exam/quiz-exam.module';
 import { SharedModule } from './shared/shared.module';
 import { QuizEditorModule } from './quiz-editor/quiz-editor.module';
-import { QuestionCounterPipe } from './shared/question-counter.pipe';
 
 
 
