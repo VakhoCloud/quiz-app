@@ -4,8 +4,6 @@ import { QuizService } from "../quiz.service";
 import { Quiz } from "./quiz.model";
 import { map, tap } from "rxjs";
 import { Results } from "./results.model";
-import { ActivatedRoute } from "@angular/router";
-import { AuthService } from "../auth/auth.service";
 
 @Injectable({providedIn: "root"})
 export class DataStorageService {
@@ -14,8 +12,6 @@ export class DataStorageService {
     constructor(
         private http: HttpClient, 
         private quizService: QuizService,
-        private route: ActivatedRoute,
-        private authService: AuthService
     ) {}
 
     storeQuizzes(id: string) {
@@ -27,7 +23,6 @@ export class DataStorageService {
                 quizzes,
             )
             .subscribe(); 
-            // .subscribe((response) => {console.log(response)}); 
     }
 
     fetchQuizzes(id: string) {
@@ -62,21 +57,16 @@ export class DataStorageService {
             .subscribe(results => {
                 console.log(results)
             }); 
-            // .subscribe((response) => {console.log(response)}); 
     }
 
     fetchResults(id: string) {
-        // this.route.params.subscribe(params => { 
-        //     this.authService.getIdToken() === null ? this.userid = params['userid'] : this.userid = this.authService.getIdToken();
-        // })
-
         return this.http
             .get<Results[]>(
                `https://quiz-maker-app-6092c-default-rtdb.europe-west1.firebasedatabase.app/users/${id}/results.json`)
             .pipe(
                 map(results => {
                     if (!results) {
-                        return []; // Return an empty array if results are null
+                        return []; 
                     }
                     return results.map(result => {
                         return {
@@ -87,23 +77,7 @@ export class DataStorageService {
 
                 this.quizService.setResults(results);
             }))
- 
-        
-        
-        // return this.http
-        //     .get<Results[]>(
-        //        `https://quiz-maker-app-6092c-default-rtdb.europe-west1.firebasedatabase.app/${id}/results.json`)
-        //     .pipe(
-        //         map(results => {
-        //             return results.map(result => {
-        //                 return {
-        //                     ...result,
-        //                 };
-        //             });
-        //     }), tap(results => {
-        //         console.log(results);
-        //         this.quizService.setResults(results);
-        //     }))
+
     }
 
 }
