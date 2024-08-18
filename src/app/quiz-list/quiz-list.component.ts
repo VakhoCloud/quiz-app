@@ -6,11 +6,12 @@ import { DataStorageService } from '../shared/data-storage.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AuthService } from '../auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-quiz-list',
   templateUrl: './quiz-list.component.html',
-  styleUrl: './quiz-list.component.css',
+  styleUrls: ['./quiz-list.component.css'],
 })
 export class QuizListComponent implements OnInit, AfterViewInit {
 
@@ -24,11 +25,11 @@ export class QuizListComponent implements OnInit, AfterViewInit {
     private quizService: QuizService, 
     private router: Router,
     private dataStorageService: DataStorageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackbar: MatSnackBar
   ) { }
 
   ngOnInit(): void {  
-    console.log(this.authService.getIdToken());
     this.dataStorageService.fetchQuizzes(this.authService.getIdToken()).subscribe();
 
     this.quizService.quizChanged.subscribe((quizzes: Quiz[]) => {
@@ -57,5 +58,16 @@ export class QuizListComponent implements OnInit, AfterViewInit {
   }
 
 
+  saveMessage() {
+    this._snackbar.open('Quiz link copied', 'Done', {duration: 2000});
 
+  }
+  
+  setClipboardValue(index: number): string {
+    const idToken = this.authService.getIdToken();
+    const baseUrl = window.location.origin; // Get the base URL including protocol and host
+    const fullUrl = `${baseUrl}${this.router.createUrlTree(['/preview', idToken, index]).toString()}`;  // Create full URL
+    return `${fullUrl}`;
+
+  }
 }

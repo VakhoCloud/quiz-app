@@ -37,7 +37,20 @@ button {
     transform: translateY(-1px);
   }
 
+.share-link { 
+  width: fit-content;
+  padding: 0;
+  min-width: 30px;
+  margin: 0;
+}
 
+.mat-mdc-raised-button > .mat-icon{ 
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+
+  margin: 0;
+}
 
   
 @media only screen and (max-width: 1240px) {

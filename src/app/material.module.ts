@@ -17,6 +17,8 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatTooltipModule} from '@angular/material/tooltip'; 
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
     imports: [
@@ -37,7 +39,9 @@ import {MatStepperModule} from '@angular/material/stepper';
       MatRippleModule,
       MatProgressSpinnerModule,
       MatExpansionModule,
-      MatStepperModule
+      MatStepperModule,
+      MatTooltipModule,
+      ClipboardModule
     ],
     exports: [
       MatSlideToggleModule, 
@@ -57,8 +61,9 @@ import {MatStepperModule} from '@angular/material/stepper';
       MatRippleModule,
       MatProgressSpinnerModule,
       MatExpansionModule,
-      MatStepperModule
-
+      MatStepperModule,
+      MatTooltipModule,
+      ClipboardModule
     ],
     
 })

@@ -155,14 +155,19 @@ button {
     align-self: center;
   }
 
+p {
+  font-size: 0.75rem;
+  color: rgb(44, 44, 44);
+}
 
-  @media only screen and (max-width: 1240px) {
-    .settings-tab { 
-      position: relative;
-      top: auto;
-      left: auto;
-      padding: 5px;
-      width: 100%;
-    }
-    
+
+@media only screen and (max-width: 1240px) {
+  .settings-tab { 
+    position: relative;
+    top: auto;
+    left: auto;
+    padding: 5px;
+    width: 100%;
   }
+  
+}

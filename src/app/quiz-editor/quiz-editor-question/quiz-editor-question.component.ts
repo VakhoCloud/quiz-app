@@ -106,11 +106,11 @@ export class QuizEditorQuestionComponent implements OnInit  {
   
         };
       }
-      this.quizForm.valueChanges.subscribe(console.log)
+      // this.quizForm.valueChanges.subscribe(console.log)
     });
-    this.quizForm.valueChanges.subscribe(value => {
-      console.log(value);
-    });
+    // this.quizForm.valueChanges.subscribe(value => {
+    //   console.log(value);
+    // });
   }
 
   get questionForm() {
