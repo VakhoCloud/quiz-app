@@ -1,36 +1,51 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { QuizEditorComponent } from './quiz-editor/quiz-editor.component';
-import { QuizListComponent } from './quiz-list/quiz-list.component';
-import { QuizExamComponent } from './quiz-exam/quiz-exam.component';
-import { QuizEditorQuestionComponent } from './quiz-editor/quiz-editor-question/quiz-editor-question.component';
-import { AuthComponent } from './auth/auth.component';
-import { authGuard, authRedirectGuard } from './auth/auth.guard';
-import { ResultsComponent } from './results/results.component';
-import { ResultCheckComponent } from './results/result-check/result-check.component';
-import { HomeComponent } from './home/home.component';
-import { quizEditorGuard } from './quiz-editor/quiz-editor.guard'
-import { resultsGuard } from './results/results.guard';
-
-
-
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, pathMatch: 'full' },
-  { path: 'editor', component: QuizEditorComponent, canActivate: [authGuard] ,children: [
-    {path: 'question', component: QuizEditorQuestionComponent},
-    {path: ':id/edit', component: QuizEditorQuestionComponent, canActivate: [quizEditorGuard]}
-  ]
-},
-  { path: 'list', component: QuizListComponent, canActivate: [authGuard]},
-  { path: 'preview/:id', component: QuizExamComponent, canActivate: [quizEditorGuard, authGuard]},
-  { path: 'preview/:userid/:id', component: QuizExamComponent, canActivate: [quizEditorGuard, authGuard]},
-  // { path: '' , canActivate: [quizEditorGuard, authGuard]},
-  { path: 'auth', component: AuthComponent, canActivate: [authRedirectGuard]},
-  { path: 'results', component: ResultsComponent, canActivate: [authGuard]},
-  { path: 'results/check/:id/:username', component: ResultCheckComponent, canActivate: [resultsGuard] },
 
+  { path: 'home',
+    loadChildren: () => 
+      import('./home/home.module').then(
+        m => m.HomeModule
+      )
+  },
+
+  { path: 'auth',
+    loadChildren: () => 
+      import('./auth/auth.module').then(
+        m => m.AuthModule
+      )
+  },
+
+  { path: 'list',
+    loadChildren: () => 
+      import('./quiz-list/quiz-list.module').then(
+        m => m.QuizListModule
+      )
+  },
+
+  { path: 'preview',
+    loadChildren: () => 
+      import('./quiz-editor/quiz-editor.module').then(
+        m => m.QuizEditorModule
+      )
+  },
+
+  { path: 'preview',
+    loadChildren: () => 
+      import('./quiz-exam/quiz-exam.module').then(
+        m => m.QuizExamModule
+      )
+  },
+
+  { path: 'results',
+    loadChildren: () => 
+      import('./results/results.module').then(
+        m => m.ResultsModule
+      )
+    },
+    
   { path: '**', redirectTo: '/editor/question'}
 ];
 

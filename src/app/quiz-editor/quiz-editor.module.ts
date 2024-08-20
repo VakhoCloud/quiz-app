@@ -5,6 +5,9 @@ import { SettingsComponent } from "./quiz-editor-question/settings/settings.comp
 import { ThemesComponent } from "./quiz-editor-question/themes/themes.component";
 import { SharedModule } from "../shared/shared.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { authGuard } from "../auth/auth.guard";
+import { quizEditorGuard } from "./quiz-editor.guard";
 
 @NgModule({
     declarations: [
@@ -16,6 +19,13 @@ import { ReactiveFormsModule } from "@angular/forms";
     imports: [
         SharedModule,
         ReactiveFormsModule,
+        RouterModule.forChild([
+            { path: 'editor', component: QuizEditorComponent, canActivate: [authGuard] ,children: [
+                {path: 'question', component: QuizEditorQuestionComponent},
+                {path: ':id/edit', component: QuizEditorQuestionComponent, canActivate: [quizEditorGuard]}
+              ]
+            }
+        ])
     ]
 })
 export class QuizEditorModule {}
