@@ -1,4 +1,4 @@
-@if (!checkMode) {
+@if (!checkMode && userId !== '') {
   <mat-form-field appearance='fill'>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
