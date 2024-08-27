@@ -73,6 +73,7 @@ h3 {
 
     .quiz-box { 
         width: 500px;
+        padding: 0;
     }
 
     .quiz-container { 

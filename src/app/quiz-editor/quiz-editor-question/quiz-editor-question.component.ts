@@ -19,6 +19,8 @@ export class QuizEditorQuestionComponent implements OnInit  {
   editMode = false;
   editId: number;
 
+ 
+
   showQuestionImageInput = false;
   showImageInput: boolean = false;
 
@@ -125,6 +127,17 @@ export class QuizEditorQuestionComponent implements OnInit  {
     return this.quizForm.get('settings') as FormGroup;
   }
 
+  
+  get controls() {
+    return (<FormArray>this.quizForm.get('questions')).controls;
+  }
+  
+  get optionControls() {
+    return (this.quizForm.get('question') as FormArray).controls.map((questionControl) =>
+      (questionControl.get('option') as FormArray).controls
+    );
+  }
+  
   onAddOption(i: number) {
     const optionsArray = this.questionForm.at(i).get('option') as FormArray;
     const index = optionsArray.length;
@@ -149,18 +162,7 @@ export class QuizEditorQuestionComponent implements OnInit  {
   deleteQuestion(i) {
     this.questionForm.removeAt(i)
   }
-
-  get controls() {
-    return (<FormArray>this.quizForm.get('questions')).controls;
-  }
-
-  get optionControls() {
-    return (this.quizForm.get('question') as FormArray).controls.map((questionControl) =>
-    (questionControl.get('option') as FormArray).controls
-    );
-  }
-
-
+  
   onDeleteOpiton(qIndex: number, oIndex: number) {
     const optionsArray = this.questionForm.at(qIndex).get('option') as FormArray;
     optionsArray.removeAt(oIndex);
@@ -168,7 +170,6 @@ export class QuizEditorQuestionComponent implements OnInit  {
     for (let i = qIndex; i < optionsArray.length; i++) {
       optionsArray.at(i).patchValue({ id: i });
     };
-
   }
 
   shouldDisplayAsGrid(optionsLength: number): boolean {
@@ -200,6 +201,16 @@ export class QuizEditorQuestionComponent implements OnInit  {
   toggleQuiz() { 
     this.showSettingsTab = false;
     this.showThemesTab = false;
+  }
+
+  onInputFocus(inputRef: HTMLInputElement, buttonRef: HTMLButtonElement) {
+    // Show the button when the input is focused
+    buttonRef.style.display = 'block';
+  }
+
+  onInputBlur(inputRef: HTMLInputElement, buttonRef: HTMLButtonElement) {
+    // Hide the button when the input loses focus
+    buttonRef.style.display = 'none';
   }
 
 }

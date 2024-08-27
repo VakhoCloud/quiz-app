@@ -21,6 +21,7 @@ export class HomeComponent {
       if (user) {
         this.router.navigate(['editor', 'question']);
       } else {
+        this.router.navigate(['auth']);
         this._snackbar.open('Please sign in!', 'Close', {
           duration: 3000
         });
@@ -33,6 +34,7 @@ export class HomeComponent {
       if (user) {
         this.router.navigate(['list']);
       } else {
+        this.router.navigate(['auth']);
         this._snackbar.open('Please sign in!', 'Close', {
           duration: 3000
         });
